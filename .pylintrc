@@ -1,0 +1,25 @@
+[MASTER]
+load-plugins = pylint_django
+django-settings-module = pos_backend.settings
+ignore-patterns = migrations
+
+[MESSAGES CONTROL]
+disable =
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    too-many-ancestors,
+    no-member
+
+[FORMAT]
+max-line-length = 100
+
+[DESIGN]
+max-parents = 12
+
+[TYPECHECK]
+generated-members = objects,does_not_exist,save,delete
+
+[REPORTS]
+output-format = colorized
+score = yes
