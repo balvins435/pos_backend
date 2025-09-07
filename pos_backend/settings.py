@@ -107,16 +107,16 @@ DATABASES = {
 }
 
 # For PostgreSQL
-DATABASES ={
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pos_system',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',  # Change if using a remote database
-        'PORT': '5432',  # PostgreSQL port; change for MSSQL
-    }
-}
+# DATABASES ={
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'pos_system',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': 'localhost',  # Change if using a remote database
+#         'PORT': '5432',  # PostgreSQL port; change for MSSQL
+#     }
+# }
 
 
 # Password validation
