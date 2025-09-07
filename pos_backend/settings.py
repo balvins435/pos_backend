@@ -10,11 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
-import dj_database_url
+
 from pathlib import Path
 
 from datetime import timedelta
-
+import dj_database_url
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
@@ -98,6 +98,15 @@ WSGI_APPLICATION = 'pos_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
+
+# DATABASES = {
+#     "default": dj_database_url.config(
+#         default=os.environ.get("DATABASE_URL")
+#     )
+# }
+
+# For PostgreSQL
 DATABASES ={
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -108,13 +117,6 @@ DATABASES ={
         'PORT': '5432',  # PostgreSQL port; change for MSSQL
     }
 }
-
-DATABASES = {
-    "default": dj_database_url.config(
-        default=os.environ.get("DATABASE_URL")
-    )
-}
-
 
 
 # Password validation
