@@ -17,5 +17,5 @@ class Command(BaseCommand):
             # pylint: disable=no-member
             self.stdout.write(self.style.SUCCESS("Superuser created successfully"))
         else:
-            # pylint: disable=no-member
-            self.stdout.write(self.style.WARNING("Superuser already exists"))
+            
+            self.stdout.write(self.style.WARNING("Superuser already exists"))# pylint: disable=no-member

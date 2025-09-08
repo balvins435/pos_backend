@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'sales',
     'rest_framework_simplejwt',
+    'users',
 ]
 
 REST_FRAMEWORK = {
@@ -100,23 +101,23 @@ WSGI_APPLICATION = 'pos_backend.wsgi.application'
 
 
 
-DATABASES = {
-    "default": dj_database_url.config(
-        default=os.environ.get("DATABASE_URL")
-    )
-}
+# DATABASES = {
+#     "default": dj_database_url.config(
+#         default=os.environ.get("DATABASE_URL")
+#     )
+# }
 
 # For PostgreSQL
-# DATABASES ={
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'pos_system',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'localhost',  # Change if using a remote database
-#         'PORT': '5432',  # PostgreSQL port; change for MSSQL
-#     }
-# }
+DATABASES ={
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'pos_test',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',  # Change if using a remote database
+        'PORT': '5432',  # PostgreSQL port; change for MSSQL
+    }
+}
 
 
 # Password validation
@@ -137,11 +138,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "sales.User"
+AUTH_USER_MODEL = "users.User"
 
 
 AUTHENTICATION_BACKENDS = [
-    "sales.backends.EmailBackend",  
+    "users.backends.EmailBackend",
     "django.contrib.auth.backends.ModelBackend",  # keep default
 ]
 
