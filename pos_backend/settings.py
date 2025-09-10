@@ -51,6 +51,10 @@ INSTALLED_APPS = [
     'sales',
     'rest_framework_simplejwt',
     'users',
+    'rest_framework.authtoken',
+    'customers',
+    'inventory',
+    
 ]
 
 REST_FRAMEWORK = {
@@ -100,24 +104,24 @@ WSGI_APPLICATION = 'pos_backend.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 
-
-# DATABASES = {
-#     "default": dj_database_url.config(
-#         default=os.environ.get("DATABASE_URL")
-#     )
-# }
+# For Render's postgress db
+DATABASES = {
+    "default": dj_database_url.config(
+        default=os.environ.get("DATABASE_URL")
+    )
+}
 
 # For PostgreSQL
-DATABASES ={
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pos_test',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',  # Change if using a remote database
-        'PORT': '5432',  # PostgreSQL port; change for MSSQL
-    }
-}
+# DATABASES ={
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'pos_test',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': 'localhost',  # Change if using a remote database
+#         'PORT': '5432',  # PostgreSQL port; change for MSSQL
+#     }
+# }
 
 
 # Password validation

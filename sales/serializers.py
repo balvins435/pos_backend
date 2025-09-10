@@ -1,41 +1,54 @@
-# from rest_framework import serializers
-# from django.contrib.auth import get_user_model
-# from django.contrib.auth.hashers import make_password, check_password
+# sales/serializers.py
+from rest_framework import serializers
+from .models import Sale, SaleItem
+from customers.models import Customer
 
-# User = get_user_model()
+class SaleItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SaleItem
+        fields = ['item', 'quantity', 'unit_price']
 
+class CustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = ['id', 'name', 'phone', 'email', 'date_joined', 'loyalty_points']
+class SaleSerializer(serializers.ModelSerializer):
+    items = SaleItemSerializer(many=True)
+    customer_phone = serializers.CharField(write_only=True, required=False)
+    
+    read_only_fields = ['customer', 'total']
 
-# class RegisterSerializer(serializers.ModelSerializer):
-#     confirm_password = serializers.CharField(write_only=True)
+    class Meta:
+        model = Sale
+        fields = ['id', 'user', 'customer', 'date', 'total', 'payment_method', 'items', 'customer_phone']
 
-#     class Meta:
-#         model = User
-#         fields = ["id", "username", "email", "password", "confirm_password"]
-#         extra_kwargs = {"password": {"write_only": True}}
+    def create(self, validated_data):
+        items_data = validated_data.pop('items')
+        phone = validated_data.pop('customer_phone', None)
 
-#     def validate(self, data):
-#         if data["password"] != data["confirm_password"]:
-#             raise serializers.ValidationError({"password": "Passwords do not match"})
-#         return data
+        # Auto-create or fetch customer
+        customer = None
+        if phone:
+            customer, _ = Customer.objects.get_or_create(phone=phone, defaults={
+                'name': 'Walk-in',
+                'email': None
+            })
 
-#     def create(self, validated_data):
-#         validated_data.pop("confirm_password")  # remove confirm_password
-#         validated_data["password"] = make_password(validated_data["password"])  # hash password
-#         return User.objects.create(**validated_data)
+        # Calculated total
+        total = sum(item['quantity'] * item['unit_price'] for item in items_data)
 
+        # ✅ Ensure customer is linked
+        sale = Sale.objects.create(customer=customer, **validated_data)
+     
 
-# class LoginSerializer(serializers.Serializer):
-#     email = serializers.EmailField()
-#     password = serializers.CharField(write_only=True)
+        # Add items to sale
+        for item_data in items_data:
+            SaleItem.objects.create(sale=sale, **item_data)
 
-#     def validate(self, data):
-#         try:
-#             user = User.objects.get(email=data["email"])
-#         except User.DoesNotExist:
-#             raise serializers.ValidationError({"email": "User with this email does not exist."})
+        # Award loyalty points
+        if customer:
+            points = sale.total // 100  # 1 point per 100 KES
+            customer.loyalty_points += points
+            customer.save()
 
-#         if not check_password(data["password"], user.password):
-#             raise serializers.ValidationError({"password": "Invalid password."})
-
-#         data["user"] = user
-#         return data
+        return sale

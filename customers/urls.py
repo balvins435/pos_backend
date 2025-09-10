@@ -1,8 +1,8 @@
-# sales/urls.py
+# customers/urls.py
 from rest_framework.routers import DefaultRouter
-from .views import SaleViewSet
+from .views import CustomerViewSet
 
 router = DefaultRouter()
-router.register(r'sales', SaleViewSet)
+router.register(r'customers', CustomerViewSet)
 
 urlpatterns = router.urls
